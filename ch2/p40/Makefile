@@ -1,0 +1,4 @@
+runtime_invariant_values: runtime_invariant_values.c
+	gcc runtime_invariant_values.c -o runtime_invariant_values
+run: runtime_invariant_values
+	./runtime_invariant_values
