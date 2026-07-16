@@ -8,105 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "413ac86c3391644e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch1"
-            }
-          },
-          {
-            "id": "b25aec4cdbc9fa1f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch1"
-            }
-          },
-          {
-            "id": "e9baef5663a87e68",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch1.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch1"
-            }
-          },
-          {
-            "id": "d0cf326607cae3d5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch2"
-            }
-          },
-          {
-            "id": "d582aea244e9dc95",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch2"
-            }
-          },
-          {
-            "id": "c8f198a7475cc3ad",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "ch2.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "ch2"
-            }
-          },
-          {
             "id": "481d648a4846168e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ch3.md",
+                "file": "POSIX/fctnl/fctnl.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch3"
+              "title": "fctnl"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -270,23 +185,25 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "ch1.md",
+    "ch3/p85/test.foo",
+    "ch3/p85/fcntl",
+    "ch3/p85/Makefile",
+    "ch3/p85/fcntl.c",
+    "ch3/p85",
+    "ch3/p84/temp.foo",
+    "ch3/p84/fcntl",
+    "ch3/p84/fcntl.c",
+    "ch3/p84/Makefile",
+    "ch3/p84/ftntl.c",
+    "POSIX/execve/execl.md",
+    "POSIX/fctnl/fctnl.md",
     "ch3.md",
+    "POSIX/fctnl",
+    "POSIX/execve/execve.md",
+    "ch1.md",
     "ch2.md",
     "POSIX/open/open.md",
     "manual page/open.md",
-    "POSIX/execve/execl.md",
-    "ch3/p72/time",
-    "POSIX/execve/execve.md",
-    "POSIX/execve/memory",
-    "POSIX/execve/memory.c",
-    "POSIX/execve/Makefile",
-    "ch3/p72/time.c",
-    "ch3/p72/copy",
-    "ch3/p72/copy_file.txt",
-    "ch3/p72/bigfile",
-    "ch3/p72/create_big_file",
-    "ch3/p72/create_big_file.c",
     "ch3/p72/test.md",
     "Appendix B.md",
     "ISO C/errno/getpriority.md",
