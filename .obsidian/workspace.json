@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "POSIX/fctnl/fctnl.md",
+                "file": "ch4/Files and Directories.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "fctnl"
+              "title": "Files and Directories"
             }
           }
         ]
@@ -185,20 +185,21 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "ch3/p85/test.foo",
-    "ch3/p85/fcntl",
-    "ch3/p85/Makefile",
-    "ch3/p85/fcntl.c",
-    "ch3/p85",
-    "ch3/p84/temp.foo",
-    "ch3/p84/fcntl",
-    "ch3/p84/fcntl.c",
-    "ch3/p84/Makefile",
-    "ch3/p84/ftntl.c",
-    "POSIX/execve/execl.md",
+    "ch4/p96/file_type",
+    "ch4/p96/Makefile",
+    "ch4/p96/file_type.c",
+    "ch4/apue.h",
+    "ch4/error.c",
+    "ch4/ch3/p85/test.foo",
+    "ch4/ch3/p85/Makefile",
+    "ch4/ch3/p85/fcntl.c",
+    "ch4/ch3/p85/fcntl",
+    "ch4/ch3/p85",
+    "ch4/ch3/p84/temp.foo",
     "POSIX/fctnl/fctnl.md",
+    "ch4/Files and Directories.md",
+    "POSIX/execve/execl.md",
     "ch3.md",
-    "POSIX/fctnl",
     "POSIX/execve/execve.md",
     "ch1.md",
     "ch2.md",
