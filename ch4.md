@@ -58,4 +58,45 @@ POSIX.1 allows an implementation to choose one of the following options to deter
 - The group ID of a new file can be the effective group ID of the process.
 - The group ID of a new file can be the group ID of the directory in which the file is being created.
 
-## 
+## access and faccessat Functions
+```c
+#include <unistd.h>
+int access(const char *pathname, int mode);
+int faccessat(int fd, const char *pathname, int mode, int flag);
+// Both return: 0 if OK, −1 on error
+```
+## umask Function
+The umask function sets the file mode creation mask for the process and returns the previous value. (This is one of the few functions that doesn’t have an error return.)
+```c
+#include <sys/stat.h>
+mode_t umask(mode_t cmask);
+// Returns: previous file mode creation mask
+```
+
+## chmod, fchmod, and fchmodat Function
+The chmod, fchmod, and fchmodat functions allows us to change the file access permissions for an existing file.
+```c
+#include <sys/stat.h>
+int chmod(const char *pathname, mode_t mode);
+int fchmod(int fd, mode_t mode);
+int fchmodat(int fd, const char *pathname, mode_t mode, int flag);
+// All three return: 0 if OK, −1 on error
+```
+
+from `<sys/stat.h>`
+
+| mode    | Desciption                              |
+| ------- | --------------------------------------- |
+| S_ISUID | set-user-ID on execution                |
+| S_ISGID | set-group-ID on execution               |
+| S_ISVTX | saved-text(sticky bit)                  |
+|         |                                         |
+| S_IRWXU | read, write, and execute by user(owner) |
+| S_IRUSR | read by user                            |
+| S_IWUSR | write by user                           |
+| S_IXUSR | execute by user                         |
+|         |                                         |
+| S_IRWXG | read, write, and execute by group       |
+| S_IROTH | read by other(world)                    |
+| S_IWOTH | write by other(world)                   |
+| S_IXOTH | execute by other(world)                 |
