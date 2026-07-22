@@ -100,3 +100,22 @@ from `<sys/stat.h>`
 | S_IROTH | read by other(world)                    |
 | S_IWOTH | write by other(world)                   |
 | S_IXOTH | execute by other(world)                 |
+## Sticky Bits
+`S_ISVTX` bit
+## chown, fchown, fchownat, and lchown Functions
+The chown functions allow us to change a file’s user ID and group ID, but if either of the arguments owner or group is −1, the corresponding ID is left unchanged.
+
+```c
+#include <unistd.h>
+int chown(const char *pathname, uid_t owner, gid_t group);
+int fchown(int fd, uid_t owner, gid_t group);
+int fchownat(int fd, const char *pathname, uid_t owner, gid_t group,
+int flag);
+int lchown(const char *pathname, uid_t owner, gid_t group);
+// All four return: 0 if OK, −1 on error
+```
+
+These four functions operate similarly unless the referenced file is symbolic link. In that case, `lchown` and `fchownat` (with the AT_SYMLINK_NOFOLLOW flag set) change the owner of the symbolic link itself, not the file pointed to by the symbolic link.
+
+The fchown function changes the ownership of the open file referenced by the fd argument. Since it operates on a file that is already open, it can't be used to change the ownership of a symbolic link.
+

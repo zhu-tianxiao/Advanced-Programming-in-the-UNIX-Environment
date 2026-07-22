@@ -44,7 +44,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "Files"
+              "title": "文件列表"
             }
           },
           {
@@ -174,32 +174,32 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
-      "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
-      "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
     }
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "ch4/p107",
+    "Advanced Programming in the UNIX Environment (3rd ed.) (W. Richard Stevens, Stephen A. Rago) (Z-Library).pdf",
+    "ch4/p107/chmod",
+    "ch4/p107/bar",
+    "ch4/p107/foo",
+    "ch4/p107/bar copy",
+    "ch4/p107/foo copy",
+    "ch4/p104/bar",
+    "ch4/p104/foo",
+    "ch4/p104/umask",
+    "ch4/p107/chmod.c",
+    "ch4/p107/Makefile",
     "未命名.md",
     "README.md",
     "ch4.md",
     "ch2.md",
-    "ch4/p103/access",
-    "ch4/p103/Makefile",
-    "ch4/p103/access.c",
-    "ch4/p103",
-    "ch4/p96/file_type",
-    "ch4/p96/Makefile",
-    "ch4/p96/file_type.c",
-    "ch4/apue.h",
-    "ch4/error.c",
-    "ch4/ch3/p85/test.foo",
     "POSIX/fctnl/fctnl.md",
     "ch4/Files and Directories.md",
     "POSIX/execve/execl.md",
