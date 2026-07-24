@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ch4.md",
+                "file": "ch1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch4"
+              "title": "ch1"
             }
           }
         ]
@@ -185,20 +185,20 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "Advanced Programming in the UNIX Environment (3rd ed.) (W. Richard Stevens, Stephen A. Rago) (Z-Library).pdf",
-    "ch4/p107/chmod",
-    "ch4/p107/bar",
-    "ch4/p107/foo",
-    "ch4/p107/bar copy",
-    "ch4/p107/foo copy",
-    "ch4/p104/bar",
-    "ch4/p104/foo",
-    "ch4/p104/umask",
-    "ch4/p107/chmod.c",
-    "ch4/p107/Makefile",
+    "ch1/p19/sig_int",
+    "ch1/p19/Makefile",
+    "ch1/p19/sig_int:Zone.Identifier",
+    "ch1/p19/sig_int.c:Zone.Identifier",
+    "ch1/p19/sig_int.c",
+    "ch1/p19/Makefile:Zone.Identifier",
+    "ch1/p19",
+    "ch1/p17/id",
+    "ch1/p17/Makefile",
+    "ch1/p17/id.c",
+    "ch1/p17",
+    "ch4.md",
     "未命名.md",
     "README.md",
-    "ch4.md",
     "ch2.md",
     "POSIX/fctnl/fctnl.md",
     "ch4/Files and Directories.md",

@@ -45,7 +45,7 @@ echo $0
 都可以查找目前所在的shell
 ## Files and Directories
 ### File System
-The UNIX file system is a hierarchical arrangement of directories and files. Everything starts in the directory called root, whose name is the single character /.
+The UNIX file system is a hierarchical arrangement of directories and files. Everything starts in the directory called **root**, whose name is the single character /.
 
 A directory is a file that contains directory entries.
 
@@ -138,15 +138,15 @@ zhu:x:1000:1000:,,,:/home/zhu:/bin/bash
 ```
 ## Input and Output
 ### File Descriptors
-File descriptors are normally **small non-negative integers** that the kernel uses to identify the files accessed by a process. Whenever it opens an existing file or creates a new file, the kernel returns a file descriptor that we use when we want to read or write the file.
+File descriptors are normally **small non-negative integers** that the **kernel** uses to identify the files accessed by a process. Whenever it opens an existing file or creates a new file, the kernel returns a file descriptor that we use when we want to read or write the file.
 ### Standard Input, Standard Output, and Standard Error
-By convention, all shells open three descriptors whenever a new program is run: standard input, standard output, and standard error.
+By convention, all **shells** open three descriptors whenever a new program is run: standard input, standard output, and standard error.
 
 ```bash
 ls > file.list
 ```
 ### Unbuffered I/O
-Unbuffered I/O is provided by the functions open, read, write, lseek, and close. These functions all work with file descriptors.
+Unbuffered I/O is provided by the functions open, `read`, `write`, `lseek`, and `close`. These functions all work with file descriptors.
 ### Example
 ```c
 #include "apue.h"
@@ -166,7 +166,7 @@ int main(void) {
 }
 ```
 ### Standard I/O
-The standard I/O functions provide a **buffered interface** to the unbuffered I/O functions.  Using standard I/O relieves us from having to choose optimal buffer sizes, such as the BUFFSIZE constant in Figure 1.4.
+The standard I/O functions provide a **buffered interface** to the unbuffered I/O functions.  Using standard I/O relieves us from having to choose optimal(最佳的) buffer sizes, such as the BUFFSIZE constant in Figure 1.4.
 
 ### Example
 ```c
@@ -188,9 +188,9 @@ int main(void) {
 ```
 ## Programs and Processes
 ### Program
-A program is an executable file residing on a disk in a directory. A program is read into memory and is executed by the kernel as a result of one of the seven exec functions.
+A program is an **executable** file residing on a disk in a directory. A program is read into memory and is executed by the **kernel** as a result of one of the seven exec functions.
 ### Processes and Process ID
-An executing instance of a program is called a process.
+An **executing instance** of a program is called a process.
 
 The UNIX System guarantees that every process has a unique numeric identifier called the process ID.
 ### Example
@@ -236,6 +236,7 @@ int main(void) {
 }
 ```
 ### Threads and Thread IDs
+Usually, a process has only one thread of control — one set of machine instructions executing at a time. ...
 ## Error Handling
 ```c
 extern int *__errno_location (void) __THROW __attribute_const__;
@@ -287,11 +288,13 @@ We call the user whose user ID is 0 either root or superuser.
 ### Group ID
 Our entry in the password file also specifies our numeric group ID. This, too, is assigned by the system administrator when our login name is assigned.
 
-Groups are normally used to collect users together into projects or departments.
+Groups are normally used to collect users together into projects or departments. This allows the sharing of resources, such as files, among members of the same group. 
 
-There is also a group file that maps group names into numeric group IDs.
+There is also a group file that maps group names into numeric group IDs. The group file is usually `/etc/group`.
 
-Users, however, work better with names than with numbers, so the password file maintains the mapping between login names and user IDs, and the group file provides the mapping between group names and group IDs. The ls -l command, for example, prints the login name of the owner of a file, using the password file to map the numeric user ID into the corresponding login name.
+The use of numeric user IDs and numeric group IDs for permissions is historical. With every file on disk, the file system stores both the user ID and the group ID of a file's owner. ... If the full ASCII login name and group name were used instead, additional disk space would be required. In addition, comparing permission checks is more expensive than comparing integers
+
+Users, however, work better with names than with numbers, so the password file maintains the mapping between login names and user IDs, and the group file provides the mapping between group names and group IDs. The `ls -l `command, for example, prints the login name of the owner of a file, using the password file to map the numeric user ID into the corresponding login name.
 
 ```c
 #include <unistd.h>
@@ -310,7 +313,7 @@ Signals are a technique used to notify a process that some condition has occurre
 
 The process has three choices for dealing with the signal.
 
-1. Ignore the signal. This option isn’t recommended for signals that denote a hardware exception
+1. Ignore the signal. This option isn’t recommended for signals that denote a hardware exception.
 2. Let the default action occur. or a divide-by-zero condition, the default is to terminate the process.
 3. Provide a function that is called when the signal occurs (this is called ‘‘catching’’ the signal). By providing a function of our own, we’ll know when the signal occurs and we can handle it as we wish.
 
