@@ -280,6 +280,10 @@ prog1 < inputfile | prog2 | prog3 > outputfile
 we are able to tell which of the three programs generated a particular error message.
 ### Error recovery
 The errors defined in <errno.h> can be divided into two categories: fatal and nonfatal.
+
+A fatal error has no recovery action. 
+
+Nonfatal errors, can sometimes be dealt with more robustly. Most nonfatal errors are temporary, such as a resource shortage, and might not occur when there is less activity on the system.
 ## User Identification
 ## User ID
 The user ID from our entry in the password file is a numeric value that identifies us to the system. The user ID is assigned by the system adminstrator when our login name is assigned, and we can't change it.
@@ -306,7 +310,7 @@ int main(void) {
   exit(0);
 }
 ```
-### Supplementar y Group IDs
+### Supplementary Group IDs
 In addition to the group ID specified in the password file for a login name, most versions of the UNIX System allow a user to belong to other groups.
 ## Signals
 Signals are a technique used to notify a process that some condition has occurred.
@@ -314,7 +318,7 @@ Signals are a technique used to notify a process that some condition has occurre
 The process has three choices for dealing with the signal.
 
 1. Ignore the signal. This option isn’t recommended for signals that denote a hardware exception.
-2. Let the default action occur. or a divide-by-zero condition, the default is to terminate the process.
+2. Let the default action occur. For a divide-by-zero condition, the default is to terminate the process.
 3. Provide a function that is called when the signal occurs (this is called ‘‘catching’’ the signal). By providing a function of our own, we’ll know when the signal occurs and we can handle it as we wish.
 
 ```c
@@ -356,7 +360,6 @@ int main(void) {
 
 void sig_int(int signo) {
   printf("interrupt\n%% ");
-  fflush(stdout);
 }
 ```
 ctrol-D: eof

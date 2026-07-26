@@ -36,6 +36,4 @@ int main(void) {
 
 void sig_int(int signo) {
   printf("interrupt\n%% ");
-  // 这行原文没有，在标准的linux系统中不会有问题
-  // fflush(stdout);
 }
