@@ -374,7 +374,6 @@ UNIX System maintains three values for a process:
 - User CPU time.
 - System CPU time.
 
-The clock time, sometimes called wall clock time, is the amount of time the process takes to run, and its value depends on the number of other processes being run on the system.
 
 ```bash
 zhu@laptop:/usr/include$ time -p grep _POSIX_SOURCE */*.h > /dev/null
@@ -386,6 +385,8 @@ sys 0.11
 grep是文本搜索命令，`_POSIX_SOURCE`是待搜索的文本
 所以这部分命令的作用是：  
 在当前目录的每个子目录下，搜索所有 `.h` 文件中包含 `_POSIX_SOURCE` 的行。
+
+`/dev/null`是特殊设备文件，表示写入它的数据会被直接丢弃。
 
 ## System Calls and Library Functions
 pass
