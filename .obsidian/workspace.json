@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ch1.md",
+                "file": "ch2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch1"
+              "title": "ch2"
             }
           }
         ]
@@ -185,17 +185,19 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "ch1/p20/time",
-    "ch1/p20/Makefile",
-    "ch1/p20/time.c",
-    "ch1/p20",
-    "ch1/p19/sig_int",
-    "ch1/p19/Makefile",
-    "ch1/p19/sig_int:Zone.Identifier",
-    "ch1/p19/sig_int.c:Zone.Identifier",
-    "ch1/p19/sig_int.c",
-    "ch1/p19/Makefile:Zone.Identifier",
-    "ch1/p19",
+    "ISO C/assert/Makefile",
+    "ISO C/assert/main.c",
+    "ISO C/assert/assert.md",
+    "ISO C/assert/assert.h",
+    "ISO C/assert",
+    "ch1.md",
+    "ch1/Exercise1/ls",
+    "ch1/Exercise1/ls.c",
+    "ch1/Exercise1/Makefile",
+    "ch1/Exercise1",
+    "ch1/Exercises/1.1/main",
+    "ch1/Exercises/1.1/Makefile",
+    "ch1/Exercises/1.1/main.c",
     "ch4.md",
     "未命名.md",
     "README.md",
@@ -205,7 +207,6 @@
     "POSIX/execve/execl.md",
     "ch3.md",
     "POSIX/execve/execve.md",
-    "ch1.md",
     "POSIX/open/open.md",
     "manual page/open.md",
     "ch3/p72/test.md",
@@ -214,7 +215,6 @@
     "ISO C/errno/errno.md",
     "ISO C/ctype/ctype.md",
     "ISO C/complex/complex.md",
-    "ISO C/assert/assert.md",
     "新建 Markdown.md"
   ]
 }

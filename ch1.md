@@ -389,6 +389,15 @@ grep是文本搜索命令，`_POSIX_SOURCE`是待搜索的文本
 `/dev/null`是特殊设备文件，表示写入它的数据会被直接丢弃。
 
 ## System Calls and Library Functions
-pass
+All implementations of the UNIX System  provide a well-defined, limited number of entry points directly into the kernel called **system calls**.
+
+The system call interface has always been documented in **Section 2** of the UNIX Programmer's Manual. Its definition is in the C language, no matter which implementation technique is actually used on any given system to invoke a system call.
+
+The technique used on UNIX systems is for each system call to have a function of the same name in the standard C library.
+
+Section 3 of the UNIX Programmer's Manual defines the general-purpose library functions available to programmers.
+
+
+
 ## Summary
 pass

@@ -16,9 +16,10 @@ The C standard is now maintained and developed by the ISO/IEC international stan
 The intent of the ISO C standard is to provide **portability** of conforming C programs to a wide variety of **operating systems**, not only the UNIX System. The standard defines not only the syntax and semantics of the programming language but also a standard library. This library is important because all contemporary UNIX Systems provide the library routines that are specified in the C standard.
 
 In 1999, the ISO C standard was updated and approved as **ISO/IEC 9899:1999**, largely to improve support for applications that perform numerical processing.
+- `restrict` keyword?
 
-Since 1999, three technical corrigenda have been published to correct errors in the ISO C standard—one in 2001, one in 2004, and one in 2007.
-
+Since 1999, three technical corrigenda(错误) have been published to correct errors in the ISO C standard—one in 2001, one in 2004, and one in 2007.
+- gcc ISO C standard http://gcc.gnu.org/c99status.html
 
 The ISO C library can be divided into **24 areas**, based on the headers defined by the standard (see Figure 2.1). The POSIX.1 standard includes these headers, as well as others. As Figure 2.1 shows, all of these headers are supported by the four implementations (FreeBSD 8.0, Linux 3.2.0, Mac OS X 10.6.8, and Solaris 10) that are described later in this chapter.
 
@@ -44,11 +45,11 @@ ldd可以看出链接了哪些动态链接库
 POSIX is a family of standards initially developed by the IEEE (Institute of Electrical and Electronics Engineers). POSIX stands for **Portable Operating System Interface**. It originally referred only to the **IEEE Standard 1003.1-1988** — the operating systeminterface — but was later extended to include many of the standards and draft standards
 with the 1003 designation, including the shell and utilities (1003.2).
 
-Of specific interest to this book is the 1003.1 operating system interface standard, whose goal is to **promote the portability of applications among various UNIX System environments**. This standard defines the services that an operating system must provide if it is to be ‘‘POSIX compliant,’’ and has been adopted by most computer vendors. Although the 1003.1 standard is based on the UNIX operating system, the standard is not restricted to UNIX and UNIX-like systems. Indeed, some vendors supplying proprietary operating systems claim that these systems have been made POSIX compliant, while still leaving all their proprietary features in place.
+Of specific interest to this book is the **1003.1** operating system interface standard, whose goal is to **promote the portability of applications among various UNIX System environments**. This standard defines the services that an operating system must provide if it is to be ‘‘POSIX compliant,’’ and has been adopted by most computer vendors. Although the 1003.1 standard is based on the UNIX operating system, the standard is not restricted to UNIX and UNIX-like systems. Indeed, some vendors supplying proprietary operating systems claim that these systems have been made POSIX compliant, while still leaving all their proprietary features in place.
 
-Because the 1003.1 standard specifies an interface and not an implementation, no distinction is made between system calls and library functions.
+Because the 1003.1 standard specifies an interface and not an implementation, no distinction is made between system calls and library functions. All the routines in the standard are called functions.
 
-Standards are continually evolving, and the 1003.1 standard is no exception. The 1988 version, **IEEE Standard 1003.1-1988**, was modified and submitted to the International Organization for Standardization. No new interfaces or features were added, but the text was revised. The resulting document was published as **IEEE Standard 1003.1-1990 `[IEEE 1990]`**. This is also International Standard **ISO/IEC 9945-1:1990**. This standard was commonly referred to as **POSIX.1**, a term which we’ll use in this text to refer to the different versions of the standard.
+Standards are continually evolving, and the 1003.1 standard is no exception. The 1988 version, **IEEE Standard 1003.1-1988**, was modified and submitted to the International Organization for Standardization. **No new interfaces or features were added**, but the text was revised. The resulting document was published as **IEEE Standard 1003.1-1990 `[IEEE 1990]`**. This is also International Standard **ISO/IEC 9945-1:1990**. This standard was commonly referred to as ***POSIX.1***, a term which we’ll use in this text to refer to the different versions of the standard.
 
 The IEEE 1003.1 working group continued to make changes to the standard. In 1996, a revised version of the IEEE 1003.1 standard was published. It included the 1003.1-1990 standard, the 1003.1b-1993 real-time extensions standard, and the interfaces for multithreaded programming, called **pthreads** for POSIX threads. This version of the standard was also published as International Standard **ISO/IEC 9945-1:1996**. More real-time interfaces were added in 1999 with the publication of **IEEE Standard 1003.1d-1999**. A year later, **IEEE Standard 1003.1j-2000** was published, including even more real-time interfaces, and **IEEE Standard 1003.1q-2000** was published, adding event-tracing
 extensions to the standard.
@@ -87,11 +88,14 @@ POSIX.1 **does not include the notion of a superuser**. Instead, certain operati
 也就是说POSIX没有定义root用户，只是宽泛的定义“合适的优先级”，但是习惯上仍然用UNIX的root/superuser说法。
 
 ### The Single UNIX Specification
+The Single UNIX Specification, a subset of the POSIX.1  standard, specifies additional interfaces that extend the functionality provided by the POSIX.1 specification. POSIX.1 is equivalent to the Base Specifications portion of the Single UNIX Specification.
+
 The X/Open System Interfaces (XSI) option in POSIX.1 describes optional interfaces and defines which optional portions of POSIX.1 must be supported for an implementation to be deemed XSI conforming. These include file synchronization, thread stack address and size attributes, thread process-shared synchronization, and the `_XOPEN_UNIX` symbolic constant (marked ‘‘SUS mandatory’’ in Figure 2.5). Only XSI- conforming implementations can be called UNIX systems.
 
+简单概括：
 ISO C 定义标准 C 语言和标准库。  
   
-POSIX 在 ISO C 的基础上增加了 Unix 系统接口，  
+POSIX负责操作系统（unix）接口，  
 并把接口分为 required（必选）和 optional（可选）两部分。  
   
 XSI（X/Open System Interfaces）  
@@ -106,8 +110,10 @@ POSIX + XSI + 更严格的统一行为规范。
 一个系统如果想被正式称为 UNIX，  
 就必须满足 SUS/XSI 的要求。
 ### FIPS
-美国政府曾推动 POSIX optional 功能“强制化”
+pass
 ## UNIX System Implementations
+## Relationship of Standards and Implementations
+
 ## Limits
 The implementations define many **magic numbers and constants**. Many of these have been hard coded into programs or were determined using ad hoc techniques. With the various standardization efforts that we’ve described, more portable methods are now provided to determine these magic numbers and implementation-defined limits, greatly improving the portability of software written for the UNIX environment.
 
