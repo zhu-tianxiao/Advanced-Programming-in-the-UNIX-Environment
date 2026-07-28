@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ch2.md",
+                "file": "ch3.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch2"
+              "title": "ch3"
             }
           }
         ]
@@ -185,6 +185,7 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
+    "ch2.md",
     "ch2/Exercise2/main",
     "ch2/Exercise2/main.c",
     "ch2/Exercise2/Makefile",
@@ -196,14 +197,12 @@
     "ch2/p41/README.md",
     "ch2/p40/runtime_invariant_values",
     "ch2/p40/Makefile",
-    "ch2/p40 copy/runtime_invariant_values.c",
     "ch2/p40/README.md",
     "ISO C/assert/assert.md",
     "ch1.md",
     "ch4.md",
     "未命名.md",
     "README.md",
-    "ch2.md",
     "POSIX/fctnl/fctnl.md",
     "ch4/Files and Directories.md",
     "POSIX/execve/execl.md",
