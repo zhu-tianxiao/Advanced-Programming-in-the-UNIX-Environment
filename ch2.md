@@ -112,10 +112,20 @@ POSIX + XSI + 更严格的统一行为规范。
 ### FIPS
 pass
 ## UNIX System Implementations
+One at AT&T that led to System III and System V, the so-called commercial versions of the UNIX System.
+
+One at the University of California at Berkeley that led to the 4.xBSD implementations.
+
+The research version of the UNIX System, developed at the Computing Science
+Research Center of AT&T Bell Laboratories, that led to the UNIX Time-Sharing System 8th Edition, 9th Edition, and ended with the 10th Edition in 1990.
 ## Relationship of Standards and Implementations
 
 ## Limits
-The implementations define many **magic numbers and constants**. Many of these have been hard coded into programs or were determined using ad hoc techniques. With the various standardization efforts that we’ve described, more portable methods are now provided to determine these magic numbers and implementation-defined limits, greatly improving the portability of software written for the UNIX environment.
+The implementations define many **magic numbers and constants**. 
+
+Two types of limits are needed:
+1. Compile limits
+2. Runtime limits
 
 Additionally, some limits can be fixed on a given implementation—and could therefore be defined statically in a header—yet vary on another implementation and would require a runtime function call. An example of this type of limit is the maximum number of bytes in a filename. Before SVR4, System V historically allowed only 14 bytes in a filename, whereas BSD-derived systems increased this number to 255. Most UNIX System implementations these days support multiple file system types, and each type has its own limit. This is the case of a runtime limit that depends on where in the file system the file in question is located. A filename in the root file system, for example, could have a 14-byte limit, whereas a filename in another file system could have a 255-byte limit.
 
@@ -209,7 +219,7 @@ max filename: 4096
 - Pathname variable values: FILESIZEBITS, LINK_MAX, MAX_CANON, MAX_INPUT, NAME_MAX, PATH_MAX, PIPE_BUF, and SYMLINK_MAX
 
 
-For example, a particular value may not be included in the header if its actual value for a given process depends on the amount of memory on the system. If the values are not defined in the header, we can’t use them as array bounds at compile time. To determine the actual implementation value at runtime, POSIX.1 decided to provide three functions for us to call—**sysconf, pathconf, and fpathconf**. There is still a problem, however, because some of the values are defined by POSIX.1 as being possibly ‘‘indeterminate’’ (logically infinite). This means that the value has no practical upper bound. On Solaris, for example, the number of functions you can register with atexit to be run when a process ends is limited only by the amount of memory on the system. Thus ATEXIT_MAX is considered indeterminate on Solaris. We’ll return to this problem of indeterminate runtime limits in Section 2.5.5.
+For example, a particular value may not be included in the header if its actual value for a given process depends on the amount of memory on the system. If the values are not defined in the header, we can’t use them as array bounds at compile time. To determine the actual implementation value at runtime, POSIX.1 decided to provide three functions for us to call—**sysconf, pathconf, and fpathconf**. There is still a problem, however, because some of the values are defined by POSIX.1 as being possibly ‘‘**indeterminate**’’ (logically infinite). This means that the value has no practical upper bound. On Solaris, for example, the number of functions you can register with atexit to be run when a process ends is limited only by the amount of memory on the system. Thus ATEXIT_MAX is considered indeterminate on Solaris. We’ll return to this problem of indeterminate runtime limits in Section 2.5.5.
 
 ### XSI Limits
 ```c
@@ -244,3 +254,29 @@ long fpathconf(int fd, int name);
 // All three return: corresponding value if OK, −1 on error (see later)
 ```
 ### Indeterminate Runtime Limits
+pass
+## Feature Test Macros
+The headers define numerous POSIX.1 and XSI symbols, as we’ve described. Even so, most implementations can add their own definitions to these headers, in addition to the POSIX.1 and XSI definitions.
+```c
+#define _POSIX_C_SOURCE
+200809L
+```
+
+```bash
+gcc -D_XOPEN_SOURCE=700 -std=c99 file.c -o file
+```
+
+## Primitive System Data Types
+The header `<sys/types.h>` defines some implementation-dependent data types, called the primitive system data types.
+
+By defining these data types this way, we do not build into our programs implementation details that can change from one system to another.
+
+## Differences Between Standards
+## Exercises
+1.
+```c
+#ifndef 
+#define 
+
+#endif
+```

@@ -2,6 +2,8 @@
 #include <limits.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/uio.h>
+
 int main(void) {
   printf("maximum number of bytes in LANG environment variable: %d\n", NL_LANGMAX);
 

@@ -1,7 +1,7 @@
 CC = gcc
 # CFLAGS: 编译选项，-Wall 开启所有常见警告，-Wextra 开启额外警告，-std=c11 指定 C11 标准
 CFLAGS = -Wall -Wextra -std=c11
-TARGET = integral_limits
+TARGET = main
 
 all: $(TARGET)
 
