@@ -14,7 +14,9 @@ To the kernel, all open files are refered to by file descriptors. A file descipt
 
 By convention, UNIX System shells associate file descriptor with the standard input of a process, file descriptor 0 with the standard input, 1 -> standard output, 2-> standard error. The convention is used by the shells and many applications; it is not a feature of the UNIX kernel.
 
-Although their values are standardized by POSIX.1, the magic numbers 0, 1 and 2 should be replaced in POSIX-compliant applications with the symbolic constants `STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO` to improve readability. These constants are defined in the `unist.d`
+Although their values are standardized by POSIX.1, the magic numbers 0, 1 and 2 should be replaced in POSIX-compliant applications with the symbolic constants `STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO` to improve readability. These constants are defined in the `<unistd.h>` header.
+
+File descriptors range from 0 through `OPEN_MAX`−1.
 ## open and openat functions
 
 The path parameter is the name of the file to open or created by calling either the open function or the openat function.
@@ -29,45 +31,41 @@ For these functions, **the last argument is used only when a new file is being c
 
 The path parameter is the name of the file to open or create. This function has a multitude of options, which are specified by the oflag argument. This argument is formed by ORing together one or more of the following constants from the `<fcntl.h>` header:
 
-O_RDONLY
-Open for reading only.
-O_WRONLY
-Open for writing only.
-O_RDWR
-Open for reading and writing.
-O_EXEC
-Open for execute only.
-O_SEARCH
-Open for search only (applies to directories).
+
+| flags    | functions                                      |
+| -------- | ---------------------------------------------- |
+| O_RDONLY | Open for reading only.                         |
+| O_WRONLY | Open for writing only.                         |
+| O_RDWR   | Open for reading and writing.                  |
+| O_EXEC   | Open for execute only.                         |
+| O_SEARCH | Open for search only (applies to directories). |
+
 
 这里后两个参数是不在Linux中出现的
 
 One and only one of the previous five constants **must be specified**. The following constants are optional:
 
 
+| flags     | functions                                                                                                                                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| O_APPEND  | Append to the end of file on each write.                                                                                                                                                                               |
+| O_CLOEXEC | Set the `FD_CLOEXEC` file descriptor flag.                                                                                                                                                                             |
+| O_CREAT   | Create the file if it doesn’t exist. This option requires a third argument to the open function (**a fourth argument** to the openat function) — the mode, which specifies the access permission bits of the new file. |
+| O_EXCL    | Generate an error if O_CREAT is also specified and the file already<br>exists.                                                                                                                                         |
+| O_TRUNC   | If the file exists and if it is successfully opened for either write-only or read–write, truncate its length to 0.                                                                                                     |
+其他参考书
+
 The file descriptor returned by open and openat is guaranteed to be the lowest-numbered **unused** descriptor.
 
 The fd parameter distinguishes the openat function from the open function. There are three possibilities:
-- The path parameter specifies an absolute pathname. In this case, the fd parameter is ignored and the openat function behaves like the open function.
+- The path parameter specifies an absolute pathname. In this case, the fd parameter is **ignored** and the openat function behaves like the open function.
 - The path parameter specifies a relative pathname and the fd parameter is a file descriptor that specifies the starting location in the file system where the relative pathname is to be evaluated. The fd parameter is obtained by opening the directory where the relative pathname is to be evaluated.
 - The path parameter specifies a relative pathname and the fd parameter has the special value AT_FDCWD. In this case, the pathname is evaluated starting in the current working directory and the openat function behaves like the open function.
 
-O_APPEND
-O_CLOEXEC
-O_CREAT: Create the file if it doesn’t exist. This option requires a third argument to the open function (**a fourth argument** to the openat function) — the mode, which specifies the access permission bits of the new file. 
-O_DIRECTORY
-O_EXCL
-O_NOTIFY
-O_NOFOLLON
-O_NONBLOCK
-O_SYNC
-O_TRUNC: If the file exists and if it is successfully opened for either write-only or read–write, truncate its length to 0.
-O_TTY_INIT
-
-
-O_DSYNC
-O_RSYNC
-pass
+使用openat需要引入如下的Feature Test Macro
+```c
+#define _POSIX_C_SOURCE 200809L
+```
 ### Filename and Pathname Truncation
 pass
 
@@ -94,6 +92,8 @@ open(path, O_RDWR | O_CREAT | O_TRUNC, mode);
 int close(int fd);
 // Returns: 0 if OK, −1 on error
 ```
+Closing a file also releases any record locks that the process may have on the file.
+
 When a process terminates, all of its open files are **closed automatically** by the **kernel**. Many programs take advantage of this fact and don’t explicitly close open files. See the program in Figure 1.4, for example.
 ## lseek Function
 Every open file has an associated ‘‘current file offset,’’ normally a non-negative integer that measures the number of bytes from the beginning of the file. (We describe some exceptions to the ‘‘non-negative’’ qualifier later in this section.) Read and write operations normally start at the current file offset and cause the offset to be incremented by the number of bytes read or written. By default, this offset is initialized to 0 when a file is opened, unless the O_APPEND option is specified.
@@ -143,7 +143,7 @@ zhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p67$ cat /etc/passwd | ./lseek
 can't seek
 ```
 
-lseek only records the current file offset within the kernel—it does not cause any I/O to take place. This offset is then used by the next read or write operation.
+
 
 
 ### Example
@@ -180,20 +180,26 @@ int main(void) {
 ```
 
 ```bash
-zhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p68$ ./filehole
-zhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p68$ cat file.hole
-abcdefghijABCDEFGHIJzhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p68$ ls -l file.hole
--rwxrwxrwx 1 zhu zhu 16394 May 13 15:54 file.hole
-zhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p68$ od -c file.hole
+zhu@zhu-dev:~/Projects/APUE/ch3/p68$ od -c file.hole
 0000000   a   b   c   d   e   f   g   h   i   j  \0  \0  \0  \0  \0  \0
 0000020  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0  \0
 *
-0040000   A
+0040000   A   B   C   D   E   F   G   H   I   J
+0040012
 ```
 
-关于这里空洞文件的数量更少，wsl不支持这个特性
+```bash
+dd if=/dev/zero of=file.nohole bs=16394 count=1
+```
 
-作者提到了大量细节，简单来说，现代系统的`off_t`通常是8个字节，可以支持大文件
+```bash
+zhu@zhu-dev:~/Projects/APUE/ch3/p68$ ls -ls file.hole file.nohole
+ 8 -rw-r--r-- 1 zhu zhu 16394  7月 29 14:52 file.hole
+20 -rw-rw-r-- 1 zhu zhu 16394  7月 29 14:58 file.nohole
+```
+
+Note that even though you might enable 64-bit file offsets, your ability to create a
+31 file larger than 2 GB (2 −1 bytes) depends on the underlying file system type.
 
 ## read Function
 ```c
@@ -201,15 +207,6 @@ zhu@laptop:/mnt/d/Project/Tutorial/unix/ch3/p68$ od -c file.hole
 ssize_t read(int fd, void *buf, size_t nbytes);
 // Returns: number of bytes read, 0 if end of file, −1 on error
 ```
-
-There are several cases in which the number of bytes actually read is less than the amount requested:
-- When reading from a regular file, if the end of file is reached before the requested number of bytes has been read.
-- When reading from a terminal device. Normally, up to one line is read at a time.
-- When reading from a network. Buffering within the network may cause less than the requested amount to be returned.
-- When reading from a network. Buffering within the network may cause less than the requested amount to be returned.
-- When reading from a pipe or FIFO. If the pipe contains fewer bytes than requested, read will return only what is available.
-- When reading from a record-oriented device. Some record-oriented devices, such as magnetic tape, can return up to a single record at a time.
-- When interrupted by a signal and a partial amount of data has already been read. We discuss this further in Section 10.5.
 
 
 The read operation starts at the file’s current offset. Before a successful return, the offset is incremented by the number of bytes actually read.
@@ -247,14 +244,24 @@ int main(void) {
   
 }
 ```
-- It reads from standard input and writes to standard output, assuming that these have been set up by the shell **before this program is executed**. Indeed, all normal UNIX system shells provide a way to open a file for reading on standard input and to create (or rewrite) a file on standard output. **This prevents the program from having to open the input and output files**, and allows the user to take advantage of the shell’s I/O redirection facilities.
-- The program doesn’t close the input file or output file. Instead, the program uses the feature of the UNIX kernel that closes all open file descriptors in a process when that process terminates.
-- This example works for both text files and binary files, since there is no difference between the two to the UNIX kernel.
+
 
 ## File Sharing
+The UNIX System supports the sharing of open files among different processes.
 
-pass
+The kernel uses three data structures to represent an open file, and the relationships among them determine the effect one process has on another with regard to file sharing.
 
+- Every process has an entry in the process table. Within each process table entry is a table of open file descriptors, which we can think of as a vector, with one entry per descriptor. Associated with each file descriptor are 
+	- The file descriptor flags(close-on-exec)
+	- A pointer to a file table entry
+- The kernel maintains a file table for all open files. Each file table entry contains
+	- The file status flags for the file, such as read, write, append, sync, and nonblocking.
+	- The current file offset
+	- A pointer to the v-node table entry for the file
+- Each open file(or device) has a v-node structure that contains information about the type of file and pointers to functions that operate on the file. For most files, the v-node also contains the i-node for the file. This information is read from disk when the file is opened, so that all the pertinent(有关的) information about the file is readily(轻而易举的) available. For example, the i-node contains the owner of the file, the size of the file, pointers to where the actual data blocks for the file are located on disk, and so on.
+
+
+Given these data structures, we now need to be more specific about what happens with certain operations that we’ve already described.
 ## Atomic Operations
 ### Appending to a File
 古早使用lseek+write，在多进程的条件下会出现问题，因为这两个系统调用何在一起不是原子操作。可以使用`O_APPEND`解决这个问题

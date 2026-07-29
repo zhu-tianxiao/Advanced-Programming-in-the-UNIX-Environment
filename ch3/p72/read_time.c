@@ -1,4 +1,3 @@
-#include "../apue.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,10 +5,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "../apue.h"
+#define BIGFILE_SIZE 516581760
 void copy(size_t buf_size) {
   int n;
-  char *buf = malloc(buf_size);
-
+  char* buf = malloc(buf_size);
 
   int fd_bigfile;
   int fd_devnull;
@@ -30,11 +30,14 @@ void copy(size_t buf_size) {
   if (n < 0) {
     err_sys("read error");
   }
+
+  close(fd_bigfile);
+  close(fd_devnull);
   free(buf);
 }
 int main(void) {
   printf("BUFFSIZE\tUser CPU\tSystem CPU\tClock time\tNumber of loops\n");
-  size_t buf_size = 4096;
+  size_t buf_size = 1;
 
   while (buf_size <= 524288) {
     struct tms start, end;
@@ -49,7 +52,7 @@ int main(void) {
     printf("%8ld\t%8.2f\t%8.2f\t%8.2f\t%9ld \n", buf_size,
            (double)(end.tms_utime - start.tms_utime) / ticks,
            (double)(end.tms_stime - start.tms_stime) / ticks,
-           (double)(real_end - real_start) / ticks, 516581760 / buf_size);
+           (double)(real_end - real_start) / ticks, BIGFILE_SIZE / buf_size);
     fflush(stdout);
     buf_size *= 2;
   }

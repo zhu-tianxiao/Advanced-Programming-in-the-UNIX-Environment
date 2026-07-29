@@ -1,24 +1,27 @@
-process_limit: process_limit.c
-	gcc process_limit.c -o process_limit
+CC = gcc
+# CFLAGS: 编译选项，-Wall 开启所有常见警告，-Wextra 开启额外警告，-std=c11 指定 C11 标准
+CFLAGS = -Wall -Wextra -std=c11
+TARGET1 = copy
+TARGET2 = read_time
+TARGETS = $(TARGET1) $(TARGET2)
 
-copy: copy.c ../error.c
-	gcc copy.c ../error.c -o copy 
+all: $(TARGETS)
 
-create_big_file: create_big_file.c
-	gcc create_big_file.c -o create_big_file
+$(TARGETS): %: %.c ../error.c
+	$(CC) $(CFLAGS) -o $@ $^
+# $@: 规则的目标文件名，这里是 xxx
+# $^: 规则的所有依赖文件列表，这里是 xxx.c ../error.c
 
-time: time.c ../error.c
-	gcc time.c ../error.c -o time
+run: $(TARGETS)
+	./$(TARGET1)
+	./$(TARGET2)
 
-run_limit: process_limit
-	./process_limit
+run1: $(TARGET1)
+	./$(TARGET1)
 
-run_copy: copy
-	./copy < bigfile > /dev/null
+run2: $(TARGET2)
+	./$(TARGET2)
 
-run_create_big_file: create_big_file
-	./create_big_file
-
-
-run_time: time
-	./time
+clean:
+	# -f: 强制删除，不报错即使文件不存在
+	rm -f $(TARGETS)
