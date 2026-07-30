@@ -262,6 +262,10 @@ The kernel uses three data structures to represent an open file, and the relatio
 
 
 Given these data structures, we now need to be more specific about what happens with certain operations that we’ve already described.
+- After each write is complete, the current file offset in the file table entry is incremented by the number of bytes written. If this causes the current file offset to exceed the current file size, the current file size in the i-node table entry is set to the current file offset (for example, the file is extended).
+- If a file is opened with the `O_APPEND` flag, a corresponding flag is set in the file status flags of the file table entry. Each time a write is performed for a file with this append flag set, the current file offset in the file table entry is first set to the current file size from the i-node table entry. This forces every write to be appended to the current end of file.
+- If a file is positioned to its current end of file using lseek, all that happens is the current file offset in the file table entry is set to the current file size from the i-node table entry. (Note that this is not the same as if the file was opened with the O_APPEND flag, as we will see in Section 3.11.)
+- The lseek function modifies only the current file offset in the file table entry. No I/O takes place.
 ## Atomic Operations
 ### Appending to a File
 古早使用lseek+write，在多进程的条件下会出现问题，因为这两个系统调用何在一起不是原子操作。可以使用`O_APPEND`解决这个问题
@@ -279,6 +283,7 @@ Calling pread is equivalent to calling lseek followed by a call to read, with th
 ### Creating a File
 需要通过`O_CREAT | O_EXCL`来保证，检查文件存在和创建合在一起是原子操作。
 
+In general, the term **atomic operation** refers to an operation that might be composed of multiple steps. If the operation is performed atomically, either all the steps are performed (on success) or none are performed (on failure).
 ## dup and dup2 Functions
 ```c
 #include <unistd.h>
@@ -286,16 +291,16 @@ int dup(int fd);
 int dup2(int fd, int fd2);
 // Both return: new file descriptor if OK, −1 on error
 ```
-The new file descriptor returned by dup is guaranted to be the lowest-numbered available file descriptor. 
+The new file descriptor returned by `dup` is guaranted to be the lowest-numbered available file descriptor. 
 
-With dup2, we specify the value of the new descriptor with the fd2 argument. If fd2 is already open, it is first closed. If fd equal fd2, then dup2 returns  fd2 without closing it. Otherwise, the FD_CLOEXEC file descriptor flag is cleared for fd2 so that fd2 is left open if the process calls exec.
+With `dup2`, we specify the value of the new descriptor with the fd2 argument. If fd2 is already open, it is first closed. If fd equal fd2, then dup2 returns  fd2 without closing it. Otherwise, the FD_CLOEXEC file descriptor flag is cleared for fd2 so that fd2 is left open if the process calls exec.
 
 
 The new file descriptor that is returned as the value of the functions shares the same file table entry as the fd argument. We show this in Figure 3.9.
 
 Each descriptor has its own set of file descriptor flags. As we describe in Section 3.14, the close-on-exec file descriptor flag for the new descriptor is always cleared by the dup functions.
 
-如果fd fd2都存在，fd2先关闭，然后复制fd（将fd指向fd2指向的file table entry）；
+如果fd fd2都存在，fd2先关闭，然后复制fd（将fd2指向fd指向的file table entry）；
 
 如果fd存在，fd2不存在，dup2会创建新的fd2，并且复制fd；
 
@@ -307,9 +312,9 @@ Each descriptor has its own set of file descriptor flags. As we describe in Sect
 
 Another way to duplicate a descriptor is with the `fcntl` function, which we describe in Section 3.14. Indeed, the call `dup(fd);` is equivalent to `fcntl(fd, F_DUPFD, 0);` Similarly, the call `dup2(fd, fd2);` is equivalent to `close(fd2);` `fcntl(fd, F_DUPFD, fd2);`
 
-In this last case, the dup2 is not exactly the same as a close followed by an fcntl. The differences are as follows:
-- dup2 is an **atomatic** operation, whereas the alternate form involves two function calls. It is possible in the latter case to have a signal catcher called between the close and the `fcntl` that could modify the file descriptors. The same problem could occur if a different thread changes the file descriptors
-- There are some errno differences between dup2 and fctnl.
+In this last case, the `dup2` is not exactly the same as a `close` followed by an `fcntl`. The differences are as follows:
+- `dup2` is an **atomatic** operation, whereas the alternate form involves two function calls. It is possible in the latter case to have a signal catcher called between the close and the `fcntl` that could modify the file descriptors. The same problem could occur if a different thread changes the file descriptors.
+- There are some `errno` differences between `dup2` and `fctnl`.
 
 ## sync, fsync, and fdatasync Functions
 Traditional implementations of the UNIX System have a buffer cache or page cache in the kernel through which most disk I/O passes. When we write data to a file, the data is normally copied by the kernel into one of its buffers and queued for writing to disk at some later time. This is called **delayed write**.
@@ -332,3 +337,41 @@ The function `fsync` refers only to single file, specified by the file descripto
 
 The `fdatasync` function is similar to `fsync`, but it affects only the data portions of a file. With `fsync`, the file's attributes also updated synchronously.
 ## fcntl Function
+The fcntl function can change the properties of a file that is already open.
+```c
+#include <fcntl.h>
+int fcntl(int fd, int cmd, ... /* int arg */ );
+// Returns: depends on cmd if OK (see following), −1 on error
+```
+
+The fcntl function is used for five different purposes.
+- Duplicate an existing descriptor (cmd = F_DUPFD or F_DUPFD_CLOEXEC)
+- Get/set file descriptor flags (cmd = F_GETFD or F_SETFD)
+- Get/set file status flags (cmd = F_GETFL or F_SETFL)
+- Get/set asynchronous I/O ownership (cmd = F_GETOWN or F_SETOWN)
+- Get/set record locks (cmd = F_GETLK, F_SETLK, or F_SETLKW)
+
+
+| cmd             | functions                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F_DUPFD         | Duplicate the file descriptor fd. The new file descriptor is returned as the value of the function. It is the lowest-numbered descriptor that is not already open, and that is greater than or equal to the third argument (taken as an integer). The new descriptor shares the same file table entry as fd. (Refer to Figure 3.9.) But the new descriptor has its own set of file descriptor flags, and its FD_CLOEXEC file descriptor flag is cleared. |
+| F_DUPFD_CLOEXEC | Duplicate the file descriptor and set the FD_CLOEXEC file descriptor flag associated with the new descriptor. Returns the new file descriptor.                                                                                                                                                                                                                                                                                                           |
+| F_GETFD         | Return the file descriptor flags for fd as the value of the function. Currently, only one file descriptor flag is defined: the FD_CLOEXEC flag.                                                                                                                                                                                                                                                                                                          |
+| F_SETFD         | Set the file descriptor flags for fd. The new flag value is set from the third argument (taken as an integer).                                                                                                                                                                                                                                                                                                                                           |
+| F_GETFL         | Return the file status flags for fd as the value of the function. We described the file status flags when we described the open function.                                                                                                                                                                                                                                                                                                                |
+| F_SETFL         | Set the file status flags to the value of the third argument (taken as an integer). The only flags that can be changed are O_APPEND, O_NONBLOCK, O_SYNC, O_DSYNC, O_RSYNC, O_FSYNC, and O_ASYNC.                                                                                                                                                                                                                                                         |
+| F_GETOWN        | Get the process ID or process group ID currently receiving the SIGIO and SIGURG signals.                                                                                                                                                                                                                                                                                                                                                                 |
+| F_SETOWN        | Set the process ID or process group ID to receive the SIGIO and SIGURG signals. A positive arg specifies a process ID. A negative arg implies a process group ID equal to the absolute value of arg.                                                                                                                                                                                                                                                     |
+The return value from fcntl depends on the command. All commands return −1 on an error or some other value if OK. The following four commands have special return values: F_DUPFD, F_GETFD, F_GETFL, and F_GETOWN. The first command returns the new file descriptor, the next two return the corresponding flags, and the final command returns a positive process ID or a negative process group ID.
+## ioctl Function
+The `ioctl` function has always been the catchall for I/O operations.
+```c
+#include <unistd.h>
+#include <sys/ioctl.h>
+/* System V */
+/* BSD and Linux */
+int ioctl(int fd, int request, ...);
+// Returns: −1 on error, something else if OK
+```
+## /dev/fd
+pass

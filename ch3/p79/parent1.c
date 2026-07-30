@@ -1,31 +1,27 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-int main()
-{
-    int fd;
+int main() {
+  int fd;
 
-    fd = open("test.txt", O_CREAT | O_RDWR, 0644);
+  fd = open("test.txt", O_CREAT | O_RDWR, 0644);
 
-    if(fd < 0){
-        perror("open");
-        return 1;
-    }
+  if (fd < 0) {
+    perror("open");
+    return 1;
+  }
 
-    printf("original fd = %d\n", fd);
+  printf("original fd = %d\n", fd);
 
+  // 把它复制到 fd5
+  dup2(fd, 5);
 
-    // 把它复制到 fd 3
-    dup2(fd, 3);
+  printf("exec now...\n");
 
+  execl("./child", "child", NULL);
 
-    printf("exec now...\n");
+  perror("execl");
 
-    execl("./child", "child", NULL);
-
-
-    perror("execl");
-
-    return 0;
+  return 0;
 }

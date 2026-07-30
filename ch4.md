@@ -25,6 +25,10 @@ int fstatat(int fd, const char *restrict pathname,
 struct stat *restrict buf, int flag);
 // All four return: 0 if OK, −1 on error
 ```
+
+Given a pathname, the stat function returns a structure of information about the named file.
+
+
 ## File Types
 - Regular file.
 - Directory file.
@@ -34,6 +38,50 @@ struct stat *restrict buf, int flag);
 - Socket.
 - Symbolic link.
 
+| Macro      | Type of file           |
+| ---------- | ---------------------- |
+| S_ISREG()  | regular file           |
+| S_ISDIR()  | directory file         |
+| S_ISCHR()  | character special file |
+| S_ISBLK()  | block special file     |
+| S_ISFIFO() | pipe or FIFO           |
+| S_ISLNK()  | symbolic link          |
+| S_ISSOCK() | socket                 |
+```c
+#include "../apue.h"
+
+int main(int argc, char* argv[]) {
+  struct stat buf;
+  char* ptr;
+  for (int i = 1; i < argc; i++) {
+    printf("%s: ", argv[i]);
+    if (lstat(argv[i], &buf) < 0) {
+      err_ret("lstat error");
+      continue;
+    }
+
+    if (S_ISREG(buf.st_mode)) {
+      ptr = "regualr";
+    } else if (S_ISDIR(buf.st_mode)) {
+      ptr = "directory";
+    } else if (S_ISBLK(buf.st_mode)) {
+      ptr = "block special";
+    } else if (S_ISCHR(buf.st_mode)) {
+      ptr = "character special";
+    } else if (S_ISFIFO(buf.st_mode)) {
+      ptr = "fifo";
+    } else if (S_ISLNK(buf.st_mode)) {
+      ptr = "symbolic link";
+    } else if (S_ISSOCK(buf.st_mode)) {
+      ptr = "socket";
+    } else {
+      ptr = "** unknown mode **";
+    }
+    printf("%s\n", ptr);
+  }
+  exit(0);
+}
+```
 ## Set-User-ID and Set-Group-ID
 Every process has six or more IDs associated with it.
 
@@ -45,6 +93,8 @@ Every process has six or more IDs associated with it.
 | saved set-user-ID, saved set-group-ID | saved by exec function                 |
 
 Normally, the effective user ID equals the real user ID, and the effective group ID equals the real group ID.
+
+Every file has an owner and a group owner. The owner is specified by the st_uid member of the stat structure; the group owner, by the st_gid member.
 
 Returning to the stat function, the set-user-ID bit and the set-group-ID bit are contained in the file's st_mode value. These two bits can be tested against the constants `S_ISUID` and `S_ISGID`, respectively.
 
@@ -119,3 +169,4 @@ These four functions operate similarly unless the referenced file is symbolic li
 
 The fchown function changes the ownership of the open file referenced by the fd argument. Since it operates on a file that is already open, it can't be used to change the ownership of a symbolic link.
 
+## 

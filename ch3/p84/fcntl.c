@@ -1,7 +1,8 @@
-#include "../apue.h"
 #include <fcntl.h>
 
-int main(int argc, char *argv[]) {
+#include "../apue.h"
+
+int main(int argc, char* argv[]) {
   int val;
 
   if (argc != 2) {
@@ -13,19 +14,19 @@ int main(int argc, char *argv[]) {
   }
 
   switch (val & O_ACCMODE) {
-  case O_RDONLY:
-    printf("read only");
-    break;
-  case O_WRONLY:
-    printf("write only");
-    break;
+    case O_RDONLY:
+      printf("read only");
+      break;
+    case O_WRONLY:
+      printf("write only");
+      break;
 
-  case O_RDWR:
-    printf("read write");
-    break;
-  default:
-    err_dump("unknown access mode");
-    break;
+    case O_RDWR:
+      printf("read write");
+      break;
+    default:
+      err_dump("unknown access mode");
+      break;
   }
 
   if (val & O_APPEND) {
@@ -47,5 +48,4 @@ int main(int argc, char *argv[]) {
 #endif
   putchar('\n');
   exit(0);
-
 }

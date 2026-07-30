@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ch3.md",
+                "file": "ch4.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch3"
+              "title": "ch4"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "LP",
+                "query": "ioctl",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ch1.md",
+                "file": "ch4.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "ch1 的反向链接列表"
+              "title": "ch4 的反向链接列表"
             }
           },
           {
@@ -156,21 +156,21 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ch1.md",
+                "file": "ch4.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "ch1 的大纲"
+              "title": "ch4 的大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,25 +185,25 @@
   },
   "active": "481d648a4846168e",
   "lastOpenFiles": [
-    "ch3/p72/read_time",
-    "ch3/p72/copy",
-    "ch3/p72/read_time.c",
-    "ch3/p72/bigfile",
-    "ch3/p72/Makefile",
-    "ch3/p72/copy.c",
-    "ch3/p72/create_big_file.c",
-    "ch3/p72/process_limit.c",
-    "ch3/p72/time.c",
-    "ch3/p67/sizeof.c",
-    "ch3/p72",
-    "ch2.md",
+    "ch4/p96/Makefile",
+    "ch4/p96/file_type copy.c",
     "ch3.md",
+    "ch4.md",
+    "ch3/p85/fcntl",
+    "ch3/p84/fcntl",
+    "ch3/p84/Makefile",
+    "ch3/p84/p70/main.c",
+    "ch3/p84/p70/main",
+    "ch3/p84/p70/Makefile",
+    "ch3/p84/p70",
+    "ch3/p79/parent3",
+    "ch3/p79/parent2",
+    "ch2.md",
     "ch3/p62/log1.md",
     "ch2/p41/README.md",
     "ch2/p40/README.md",
     "ISO C/assert/assert.md",
     "ch1.md",
-    "ch4.md",
     "未命名.md",
     "README.md",
     "POSIX/fctnl/fctnl.md",

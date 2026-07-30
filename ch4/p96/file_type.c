@@ -1,8 +1,8 @@
 #include "../apue.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   struct stat buf;
-  char *ptr;
+  char* ptr;
   for (int i = 1; i < argc; i++) {
     printf("%s: ", argv[i]);
     if (lstat(argv[i], &buf) < 0) {
@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
       ptr = "** unknown mode **";
     }
     printf("%s\n", ptr);
-    
   }
   exit(0);
 }

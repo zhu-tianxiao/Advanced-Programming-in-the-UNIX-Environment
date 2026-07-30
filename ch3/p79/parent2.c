@@ -9,7 +9,7 @@ int main()
                   0644);
 
 
-    dup2(fd, 3);
+    dup2(fd, 5);
 
 
     // 设置 close-on-exec
