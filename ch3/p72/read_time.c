@@ -13,7 +13,7 @@ void copy(size_t buf_size) {
 
   int fd_bigfile;
   int fd_devnull;
-  if ((fd_bigfile = open("./bigfile", O_RDONLY)) == -1) {
+  if ((fd_bigfile = open("./a.bigfile", O_RDONLY)) == -1) {
     err_sys("open bigfile failed!");
   }
 
