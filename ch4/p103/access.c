@@ -1,5 +1,4 @@
 #include "../apue.h"
-// #include "unistd.h"
 #include <fcntl.h>
 
 int main(int argc, char* argv[]) {
@@ -18,7 +17,6 @@ int main(int argc, char* argv[]) {
   } else {
     printf("open for reading OK\n");
   }
-  
 
   exit(0);
 }
